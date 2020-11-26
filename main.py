@@ -25,3 +25,5 @@ while spielaktiv:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             spielaktiv = False
+
+print("Hello World")
