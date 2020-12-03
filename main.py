@@ -18,7 +18,7 @@ GRUEN   = ( 0, 255, 0)
 SCHWARZ = ( 0, 0, 0)
 WEISS   = ( 255, 255, 255)
 
-bg = pygame.image.load("")
+bg = pygame.image.load("bg.png")
 
 # Fenster öffnen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGTH))
