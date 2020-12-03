@@ -1,6 +1,6 @@
 # Projekt PyGame im Fach Skriptprogrammierung von Sascha Chladek IAV3/4
 
-# ext File bla bla
+# ext File bla bla bild
 
 # Einbinden der Bibliotheken
 import pygame, random, sys, time, argparse
