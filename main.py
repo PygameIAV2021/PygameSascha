@@ -1,27 +1,17 @@
 # Projekt PyGame im Fach Skriptprogrammierung von Sascha Chladek IAV3/4
 
-# ext File bla bla bild
-
-# Einbinden der Bibliotheken
-import pygame, random, sys, time, argparse
-
-SCREEN_HEIGTH = 480
-SCREEN_WIDTH = 640
+# Einbinden der Bibliotheken aus default mit Konstanten
+from defaults import *
 
 # initialisieren von pygame
 pygame.init()
 
-# Farbe
-ORANGE  = ( 255, 140, 0)
-ROT     = ( 255, 0, 0)
-GRUEN   = ( 0, 255, 0)
-SCHWARZ = ( 0, 0, 0)
-WEISS   = ( 255, 255, 255)
-
-bg = pygame.image.load("bg.png")
+# Background Image
+background = pygame.image.load("background.jpg")
+imagesize = background.get_rect()
 
 # Fenster öffnen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGTH))
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGTH])
 
 # Titel für Fensterkopf
 pygame.display.set_caption("Worms for you")
@@ -70,17 +60,17 @@ while spielaktiv:
     # Spiellogik hier integrieren
 
     # Spielfeld löschen
-    screen.fill(bg)
+    screen.fill(WHITE)
 
     # Spielfeld/figuren zeichnen
+    background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGTH))
+    screen.blit(background_scaled, (0,0))
 
-    # Rechteck zeichnen (auf was, color, Startpunkt sowie Breite und Höhe, Umrandung)
-    pygame.draw.rect(screen, ROT, [100,70,250,250], 1)
+    # Grundlinnie zeichnen
+    pygame.draw.line(screen, RED, [0, 430], [640, 430], 5)
 
     # Fenster aktualisieren
     pygame.display.flip()
-
-    # Refresh-Zeiten festlegen
-    clock.tick(60)
+    clock.tick(FPS)
 
 pygame.quit()
