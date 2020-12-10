@@ -9,7 +9,7 @@ SCREEN_HEIGTH = 480
 SCREEN_WIDTH = 640
 
 # FPS
-FPS= 100
+FPS= 1000
 
 # Farben
 BLACK   = ( 0, 0, 0)

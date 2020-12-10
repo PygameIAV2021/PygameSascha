@@ -10,6 +10,16 @@ pygame.init()
 background = pygame.image.load("background.jpg")
 imagesize = background.get_rect()
 
+# Player Image
+player = pygame.image.load("gangster_sprite.jpg")
+range_player = ['','','','','','']
+range_player[0] = (0,0,100,100)
+range_player[1] = (101,0,100,100)
+range_player[2] = (202,0,100,100)
+range_player[3] = (303,0,100,100)
+range_player[4] = (404,0,100,100)
+animation_range = 0
+
 # Fenster öffnen
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGTH])
 
@@ -63,8 +73,17 @@ while spielaktiv:
     screen.fill(WHITE)
 
     # Spielfeld/figuren zeichnen
+    # background
     background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGTH))
     screen.blit(background_scaled, (0,0))
+
+    # Player
+    animation_range  += 1
+
+    if animation_range  > 5:
+        animbereich  = 0
+
+    # screen.blit(player, (100, 300), range_player[animation_range])
 
     # Grundlinnie zeichnen
     pygame.draw.line(screen, RED, [0, 430], [640, 430], 5)
