@@ -1,90 +1,65 @@
-# Projekt PyGame im Fach Skriptprogrammierung von Sascha Chladek IAV3/4
+# Project Pygame in SKP
 
-# Einbinden der Bibliotheken aus default mit Konstanten
-from defaults import *
-from game_classes import *
+import pygame
+from settings import *
 
-# initialisieren von pygame
-pygame.init()
+class Game:
+    def __init__(self):
+        # Initialize Game Window, etc
+        pg.init()
+        pg.mixer.init()
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        pg.display.set_caption(TITLE)
+        self.clock = pg.time.Clock()
+        self.gamestatus = True
 
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
-pygame.display.set_caption("Worms for you")
-clock = pygame.time.Clock()
+    def new(self):
+        # Start a new game
+        self.all_sprites = pg.sprite.Group()
+        self.run()
 
-# Background Image
-background = pygame.image.load("background.jpg")
-imagesize = background.get_rect()
-background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    def run(self):
+        # Game loop
+        self.playing = True
+        while self.playing:
+            self.clock.tick(FPS)
+            self.events()
+            self.update()
+            self.draw()
 
-# Player Image
-player = spritesheet("worms_sprite_sheet.png", 13, 13)
-CENTER_HANDLE = 1
+    def update(self):
+        # Game loop - update
+        self.all_sprites.update()
 
-animation_index = 0
+    def events(self):
+        # Game loop - events
+        # Inputs überprüfen
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                if self.playing:
+                    self.playing = False
+                self.gamestatus = False
 
-# solange die Variable True ist, soll das Spiel laufen
-spielaktiv = True
+    def draw(self):
+        # Game loop - draw
+        self.screen.fill(BLACK)
+        self.all_sprites.draw(self.screen)
+        # after drawing everything, flip the window
+        pg.display.flip()
 
-# Schleife Hauptprogramm
-while spielaktiv:
-    # Überprüfen, ob Nutzer eine Aktion durchgeführt hat
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            spielaktiv = False
-            print("Spieler hat Quit-Button angeklickt")
-        elif event.type == pygame.KEYDOWN:
-            print("Spieler hat Taste gedrückt")
+    def show_start_screen(self):
+        # Start screen
+        pass
 
-            # Taste für Spieler 1
-            if event.key == pygame.K_RIGHT:
-                print("Spieler hat Pfeiltaste rechts gedrückt")
-            elif event.key == pygame.K_LEFT:
-                print("Spieler hat Pfeiltaste links gedrückt")
-            elif event.key == pygame.K_UP:
-                print("Spieler hat Pfeiltaste hoch gedrückt")
-            elif event.key == pygame.K_DOWN:
-                print("Spieler hat Pfeiltaste runter gedrückt")
-            elif event.key == pygame.K_SPACE:
-                print("Spieler hat Leertaste gedrückt")
+    def show_go_screen(self):
+         # Game Over screen
+        pass
 
-            # Taste für Spieler 2
-            elif event.key == pygame.K_w:
-                print("Spieler hat Taste w gedrückt")
-            elif event.key == pygame.K_a:
-                print("Spieler hat Taste a gedrückt")
-            elif event.key == pygame.K_s:
-                print("Spieler hat Taste s gedrückt")
-            elif event.key == pygame.K_d:
-                print("Spieler hat Taste d gedrückt")
+g = Game()
+g.show_start_screen()
+while g.gamestatus:
+    g.new()
+    g.run()
+    g.show_go_screen()
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            print("Spieler hast Maus angeklickt")
-
-    # Spiellogik hier integrieren
-
-
-
-
-
-    # Spielfeld löschen
-    screen.fill(WHITE)
-
-    # Spielfeld/figuren zeichnen
-    # screen.blit(background_scaled, (0, 0))
-    player.draw(screen, animation_index % player.totalCellCount, HSW, HSH, CENTER_HANDLE)
-    animation_index += 1
-
-    # Player
-
-    # Grundlinnie zeichnen
-    # pygame.draw.line(screen, RED, [0, 430], [640, 430], 5)
-
-    # pygame.draw.circle(screen, WHITE, (HSW, HSH), 6, 7)
-
-    # Fenster aktualisieren
-    pygame.display.update()
-    clock.tick(FPS)
-
-pygame.quit()
-
-
+pg.quit()

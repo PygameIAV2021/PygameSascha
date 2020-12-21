@@ -1,25 +1,18 @@
-import pygame
-from defaults import *
+import pygame, sys, random, string, math
+from settings import *
 
-class spritesheet:
-    def __init__(self, image_path, cols, rows):
-        self.sprite_sheet = pygame.image.load(image_path)
+class SpriteSheet:
+    def __init__(self, image_path):
+        self.sprite_sheet = pygame.image.load(image_path).convert()
 
-        self.cols = cols
-        self.rows = rows
-        self.totalCellCount = cols * rows
+    def get_image(self, x, y, width, height):
+        image = pygame.Surface((width, height))
+        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+        return image
 
-        self.rect = self.sprite_sheet.get_rect()
-        w = self.cellWidth = self.rect.width / cols
-        h = self.cellHeight = self.rect.height / rows
-        hw, hh = self.cellCenter = (w / 2, h / 2)
-
-        self.cells = list([(index % cols * w, index / cols * h, w, h) for index in range(self.totalCellCount)])
-        self.handle = list([
-            (0, 0), (-hw, 0), (-w, 0),
-            (0, -hh), (-hw, -hh), (-w, -hh),
-            (0, -h), (-hw, -h), (-w, -h), ])
-
-    def draw(self, surface, cellIndex, x, y, handle=0):
-        surface.blit(self.sprite_sheet, (x + self.handle[handle][0], y + self.handle[handle][1]), self.cells[cellIndex])
-
+class player(pygame.sprite.Sprite):
+    def __init__(self, game):
+        self.game = game
+        self.image = self.game.SpriteSheet.get_image(14, 14, 34, 46)
+        self.rect = self.image.get_rect()
+        self.rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)

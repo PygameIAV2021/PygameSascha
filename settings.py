@@ -1,22 +1,25 @@
-# defaults.py
+# settings.py
 # Feste Parameter für Pygame, Bibliotheken
 
-import pygame, os, sys, random, string, time, argparse
+import pygame as pg
+import os, sys, random, string, time, argparse
 from math import cos, sin, pi as PI
 from pygame.locals import *
 from game_classes import *
 
+TITLE = " Worms for you"
+
 # Display Oberfläche
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
-HSW = SCREEN_WIDTH / 2
-HSH = SCREEN_HEIGHT / 2
-AREA = SCREEN_WIDTH * SCREEN_HEIGHT
+WIDTH = 640
+HEIGHT = 480
+HSW = WIDTH / 2
+HSH = HEIGHT / 2
+AREA = WIDTH * HEIGHT
 
 # FPS
 FPS = 1
 
-# Farben
+# Colors
 BLACK   = ( 0, 0, 0)
 WHITE   = ( 255, 255, 255)
 RED     = ( 255, 0, 0)
