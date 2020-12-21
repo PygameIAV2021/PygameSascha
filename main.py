@@ -2,35 +2,28 @@
 
 # Einbinden der Bibliotheken aus default mit Konstanten
 from defaults import *
+from game_classes import *
 
 # initialisieren von pygame
 pygame.init()
 
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+pygame.display.set_caption("Worms for you")
+clock = pygame.time.Clock()
+
 # Background Image
 background = pygame.image.load("background.jpg")
 imagesize = background.get_rect()
+background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Player Image
-player = pygame.image.load("gangster_sprite.jpg")
-range_player = ['','','','','','']
-range_player[0] = (0,0,100,100)
-range_player[1] = (101,0,100,100)
-range_player[2] = (202,0,100,100)
-range_player[3] = (303,0,100,100)
-range_player[4] = (404,0,100,100)
-animation_range = 0
+player = spritesheet("worms_sprite_sheet.png", 13, 13)
+CENTER_HANDLE = 1
 
-# Fenster öffnen
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGTH])
-
-# Titel für Fensterkopf
-pygame.display.set_caption("Worms for you")
+animation_index = 0
 
 # solange die Variable True ist, soll das Spiel laufen
 spielaktiv = True
-
-# Bildschirm Aktualisierungen einstellen
-clock = pygame.time.Clock()
 
 # Schleife Hauptprogramm
 while spielaktiv:
@@ -69,27 +62,29 @@ while spielaktiv:
 
     # Spiellogik hier integrieren
 
+
+
+
+
     # Spielfeld löschen
     screen.fill(WHITE)
 
     # Spielfeld/figuren zeichnen
-    # background
-    background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGTH))
-    screen.blit(background_scaled, (0,0))
+    # screen.blit(background_scaled, (0, 0))
+    player.draw(screen, animation_index % player.totalCellCount, HSW, HSH, CENTER_HANDLE)
+    animation_index += 1
 
     # Player
-    animation_range  += 1
-
-    if animation_range  > 5:
-        animbereich  = 0
-
-    # screen.blit(player, (100, 300), range_player[animation_range])
 
     # Grundlinnie zeichnen
-    pygame.draw.line(screen, RED, [0, 430], [640, 430], 5)
+    # pygame.draw.line(screen, RED, [0, 430], [640, 430], 5)
+
+    # pygame.draw.circle(screen, WHITE, (HSW, HSH), 6, 7)
 
     # Fenster aktualisieren
-    pygame.display.flip()
+    pygame.display.update()
     clock.tick(FPS)
 
 pygame.quit()
+
+
