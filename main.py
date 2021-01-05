@@ -2,6 +2,7 @@
 
 import pygame
 import random
+import sys
 from settings import *
 from sprite import *
 
@@ -13,17 +14,38 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        self.load_data()
         self.gamestatus = True
+
+    def load_data(self):
+        pass
 
     def new(self):
         # Start a new game
         self.all_sprites = pg.sprite.Group()
-        self.platforms = pg.sprite.Group()
-        self.player = Player()
-        self.all_sprites.add(self.player)
-        p1 = Platform(0, HEIGHT - 40, WIDTH, 40)
-        self.all_sprites.add(p1)
-        self.platforms.add(p1)
+
+        self.walls = pg.sprite.Group()
+
+        floor_block = Wall(0, HEIGHT - 10, WIDTH, 10)
+        right_block = Wall(WIDTH - 10, 0, 10, HEIGHT)
+        left_block = Wall(0, 0, 10, HEIGHT)
+
+        self.all_sprites.add(floor_block, right_block, left_block)
+        self.walls.add(floor_block, right_block, left_block)
+
+        self.player = Player(self, 300, 300)
+
+
+        # self.bullets = pg.sprite.Group()
+        # self.mob = Mob()
+        # self.all_sprites.add(self.mob)
+
+
+
+        # self.bullet = Bullet()
+        # self.all_sprites.add(self.bullet)
+        # self.bullets.add(self.bullet)
+
         self.run()
 
     def run(self):
@@ -34,6 +56,10 @@ class Game:
             self.events()
             self.update()
             self.draw()
+
+    def quit(self):
+        pg.quit()
+        sys.exit()
 
     def update(self):
         # Game loop - update
@@ -47,6 +73,11 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.gamestatus = False
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.quit()
+                # if event.type == pg.K_SPACE:
+                    # self.player.shoot()
 
     def draw(self):
         # Game loop - draw
