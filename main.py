@@ -28,7 +28,7 @@ class Game:
 
 
     def new(self):
-        # Start a new game
+        # set all variables to create a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
 
@@ -36,6 +36,7 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     Wall(self, col, row)
+                # Spawnpoint
                 if tile == 'P':
                     self.player = Player(self, col, row)
 
@@ -45,7 +46,7 @@ class Game:
         # Game loop
         self.playing = True
         while self.playing:
-            self.clock.tick(FPS)
+            self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
@@ -58,6 +59,7 @@ class Game:
         # Game loop - update
         self.all_sprites.update()
 
+    # Gitternetz
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
@@ -83,14 +85,6 @@ class Game:
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=1)
-                if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
-                if event.key == pg.K_DOWN:
-                    self.player.move(dy=1)
 
     def show_start_screen(self):
         # Start screen
