@@ -6,6 +6,7 @@ import sys
 from os import path
 from settings import *
 from sprite import *
+from tilemap import *
 
 class Game:
     def __init__(self):
@@ -21,24 +22,21 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)
-        self.map_data = []
-        with open(path.join(game_folder, 'map.txt'), 'rt') as f:
-            for line in f:
-                self.map_data.append(line)
-
+        self.map = Map(path.join(game_folder, 'map.txt'))
 
     def new(self):
         # set all variables to create a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
 
-        for row, tiles in enumerate(self.map_data):
+        for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     Wall(self, col, row)
                 # Spawnpoint
                 if tile == 'P':
                     self.player = Player(self, col, row)
+        self.camera = Camera(self.map.width, self.map.height)
 
         self.run()
 
@@ -58,6 +56,7 @@ class Game:
     def update(self):
         # Game loop - update
         self.all_sprites.update()
+        self.camera.update(self.player)
 
     # Gitternetz
     def draw_grid(self):
@@ -70,7 +69,8 @@ class Game:
         # Game loop - draw
         self.screen.fill(BLACK)
         self.draw_grid()
-        self.all_sprites.draw(self.screen)
+        for sprite in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         # after drawing everything, flip the window
         pg.display.flip()
 
