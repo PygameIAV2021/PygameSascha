@@ -1,6 +1,7 @@
+import pygame as pg
 # settings.py
 
-TITLE = " Worms!"
+TITLE = " PyGame!"
 
 # Display Surface
 WIDTH = 864
@@ -8,14 +9,15 @@ HEIGHT = 608
 HSW = WIDTH / 2
 HSH = HEIGHT / 2
 FPS = 60
-
-# Player settings
-PLAYER_SPEED = 250
-PLAYER_JUMP_POWER = 15
-
 TILESIZE = 64
 GRIDWITDH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
+
+# Player settings
+PLAYER_SPEED = 300
+PLAYER_ROT_SPEED = 250
+PLAYER_IMG = 'tank_blue.png'
+PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 
 # Colors
 BLACK   = ( 0, 0, 0)

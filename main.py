@@ -22,7 +22,9 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'Retina')
         self.map = Map(path.join(game_folder, 'map.txt'))
+        self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
 
     def new(self):
         # set all variables to create a new game
@@ -71,6 +73,7 @@ class Game:
         self.draw_grid()
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+        # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         # after drawing everything, flip the window
         pg.display.flip()
 
