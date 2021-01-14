@@ -65,31 +65,33 @@ class Player(pg.sprite.Sprite):
         self.collide_with_walls('y')
         self.rect.center = self.hit_rect.center
 
-
 class Bullet(pg.sprite.Sprite):
-    def __init__(self, x, y):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((10, 10))
-        self.image.fill(GREEN)
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.mobs
+        pg.sprite.Sprite.__init__(self, self.groups)
+
+class Mob(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.mobs
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.mob_img
         self.rect = self.image.get_rect()
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.y = -10
+        self.pos = vec(x, y) * TILESIZE
+        self.rect.center = self.pos
+        self.rot = 0
 
     def update(self):
-        self.rect.y += self.y
+        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+        self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        self.rect.center = self.pos
 
-        if self.rect.bottom < 0:
-            self.kill()
-
-# Klasse zum erstellen von Wänden
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(GREEN)
+        self.image = game.wall_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

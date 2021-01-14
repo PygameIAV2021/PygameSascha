@@ -16,26 +16,32 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
-        pg.key.set_repeat(500, 100)
         self.load_data()
         self.gamestatus = True
 
     def load_data(self):
+        # load data
         game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'Retina')
+        img_folder = path.join(game_folder, 'default size img')
         self.map = Map(path.join(game_folder, 'map.txt'))
         self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
+        self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
+        self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
+        self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
 
     def new(self):
         # set all variables to create a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     Wall(self, col, row)
-                # Spawnpoint
+                if tile == 'M':
+                    Mob(self, col, row)
+                # Spawnpoint Player
                 if tile == 'P':
                     self.player = Player(self, col, row)
         self.camera = Camera(self.map.width, self.map.height)
@@ -69,7 +75,8 @@ class Game:
 
     def draw(self):
         # Game loop - draw
-        self.screen.fill(BLACK)
+        pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
+        self.screen.fill(BGCOLOR)
         self.draw_grid()
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
@@ -85,7 +92,7 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.gamestatus = False
-            elif event.type == pg.KEYDOWN:
+            if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
 
