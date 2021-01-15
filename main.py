@@ -67,10 +67,20 @@ class Game:
         # Game loop - update
         self.all_sprites.update()
         self.camera.update(self.player)
+        #mobs hit player
+        hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
+        for hit in hits:
+            self.player.health -= MOB_DAMAGE
+            hit.vel = vec(0, 0)
+            if self.player.health <= 0:
+                self.playing = False
+        if hits:
+            self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
         # bullet hit mobs
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
         for hit in hits:
-            hit.kill()
+            hit.health -= BULLET_DAMAGE
+            hit.vel = vec(0, 0)
 
     # Gitternetz
     def draw_grid(self):
@@ -85,9 +95,13 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         for sprite in self.all_sprites:
+            if isinstance(sprite, Mob):
+                sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         # after drawing everything, flip the window
+        # HUD funkctions
+        draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
         pg.display.flip()
 
     def events(self):

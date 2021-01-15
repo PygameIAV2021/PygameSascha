@@ -22,6 +22,7 @@ PLAYER_ROT_SPEED = 250
 PLAYER_IMG = 'tank_blue.png'
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 BARREL_OFFSET = vec(18, 0)
+PLAYER_HEALTH = 100
 # Gun settings
 BULLET_IMG = 'bulletBlue3.png'
 BULLET_SPEED = 200
@@ -29,11 +30,15 @@ BULLET_LIFETIME = 1000
 BULLET_RATE = 150
 KICKBACK = 200
 GUN_SPREAD = 5
+BULLET_DAMAGE = 10
 
 # Mob settings
 MOB_IMG = 'tank_dark.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 35, 35)
+MOB_HEALTH = 100
+MOB_DAMAGE = 10
+MOB_KNOCKBACK = 20
 
 # Colors
 BLACK   =   ( 0, 0, 0)

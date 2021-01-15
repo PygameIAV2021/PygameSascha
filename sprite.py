@@ -5,25 +5,24 @@ from settings import *
 from tilemap import *
 vec = pg.math.Vector2
 
-def collide_with_walls(sprite, group, dir):
-    if dir == 'x':
-        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
-        if hits:
-            if sprite.vel.x > 0:
-                sprite.pos.x = hits[0].rect.left - sprite.hit_rect.width / 2
-            if sprite.vel.x < 0:
-                sprite.pos.x = hits[0].rect.right + sprite.hit_rect.width / 2
-            sprite.vel.x = 0
-            sprite.hit_rect.centerx = sprite.pos.x
-    if dir == 'y':
-        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
-        if hits:
-            if sprite.vel.y > 0:
-                sprite.pos.y = hits[0].rect.top - sprite.hit_rect.height / 2
-            if sprite.vel.y < 0:
-                sprite.pos.y = hits[0].rect.bottom + sprite.hit_rect.height / 2
-            sprite.vel.y = 0
-            sprite.hit_rect.centery = sprite.pos.y
+#HUD functions
+def draw_player_health(surf, x, y, pct):
+    if pct < 0:
+        pct = 0
+    BAR_LENGTH = 100
+    BAR_HEIGHT = 20
+    fill = pct * BAR_LENGTH
+    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
+    if pct > 0.6:
+        col = GREEN
+    elif pct > 0.3:
+        col = YELLOW
+    else:
+        col = RED
+    pg.draw.rect(surf, col, fill_rect)
+    pg.draw.rect(surf, WHITE, outline_rect, 2)
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -37,6 +36,7 @@ class Player(pg.sprite.Sprite):
         self.pos = vec(x, y) * TILESIZE
         self.rot = 0
         self.last_shot = 0
+        self.health = PLAYER_HEALTH
 
     def get_keys(self):
         self.rot_speed = 0
@@ -86,6 +86,7 @@ class Mob(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
+        self.health = MOB_HEALTH
 
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
@@ -100,6 +101,21 @@ class Mob(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+        if self.health <= 0:
+            self.kill()
+
+    def draw_health(self):
+        if self.health > 60:
+            col = GREEN
+        elif self.health > 30:
+            col = YELLOW
+        else:
+            col = RED
+        width = int(self.rect.width * self.health / MOB_HEALTH)
+        self.health_bar = pg.Rect(0, 0, width, 7)
+        if self.health < MOB_HEALTH:
+            pg.draw.rect(self.image, col, self.health_bar)
+
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
