@@ -25,6 +25,7 @@ class Game:
         img_folder = path.join(game_folder, 'default size img')
         self.map = Map(path.join(game_folder, 'map.txt'))
         self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
+        self.bullet_img = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
         self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
@@ -34,6 +35,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
+        self.bullets = pg.sprite.Group()
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
@@ -65,6 +67,10 @@ class Game:
         # Game loop - update
         self.all_sprites.update()
         self.camera.update(self.player)
+        # bullet hit mobs
+        hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
+        for hit in hits:
+            hit.kill()
 
     # Gitternetz
     def draw_grid(self):
