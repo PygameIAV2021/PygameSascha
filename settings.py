@@ -34,11 +34,12 @@ BULLET_DAMAGE = 10
 
 # Mob settings
 MOB_IMG = 'tank_dark.png'
-MOB_SPEED = 150
+MOB_SPEEDS = [150, 100, 75, 125, 150]
 MOB_HIT_RECT = pg.Rect(0, 0, 35, 35)
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20
+AVOID_RADIUS = 50
 
 # Colors
 BLACK   =   ( 0, 0, 0)
