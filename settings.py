@@ -3,11 +3,11 @@ vec = pg.math.Vector2
 # settings.py
 
 TITLE = " PyGame!"
-
 WALL_IMG = 'tileGrass1.png'
+
 # Display Surface
-WIDTH = 864
-HEIGHT = 608
+WIDTH = 896
+HEIGHT = 640
 HSW = WIDTH / 2
 HSH = HEIGHT / 2
 FPS = 60

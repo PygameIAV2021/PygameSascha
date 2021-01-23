@@ -23,7 +23,11 @@ class Game:
         # load data
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'default size img')
-        self.map = Map(path.join(game_folder, 'map.txt'))
+        map_folder = path.join(game_folder, 'maps')
+        # self.map = Map(path.join(game_folder, 'map.txt'))
+        self.map = TiledMap(path.join(map_folder, 'testmap1.tmx'))
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.bullet_img = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
         self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
@@ -37,15 +41,16 @@ class Game:
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
 
-        for row, tiles in enumerate(self.map.data):
-            for col, tile in enumerate(tiles):
-                if tile == '1':
-                    Wall(self, col, row)
-                if tile == 'M':
-                    Mob(self, col, row)
-                # Spawnpoint Player
-                if tile == 'P':
-                    self.player = Player(self, col, row)
+        # for row, tiles in enumerate(self.map.data):
+        #    for col, tile in enumerate(tiles):
+        #       if tile == '1':
+        #           Wall(self, col, row)
+        #       if tile == 'M':
+        #           Mob(self, col, row)
+        #       # Spawnpoint Player
+        #       if tile == 'P':
+        #           self.player = Player(self, col, row)
+        self.player = Player(self, 5, 5)
         self.camera = Camera(self.map.width, self.map.height)
 
         self.run()
@@ -92,15 +97,16 @@ class Game:
     def draw(self):
         # Game loop - draw
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        self.screen.fill(BGCOLOR)
-        self.draw_grid()
+        # self.screen.fill(BGCOLOR)
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        # self.draw_grid()
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):
                 sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         # after drawing everything, flip the window
-        # HUD funkctions
+        # HUD functions
         draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
         pg.display.flip()
 
