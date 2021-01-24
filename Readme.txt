@@ -1,16 +1,25 @@
-Worms 0.1
+Welcome to Tanks!
 
-by Sascha. With Pygame. Inspired by inventwithpython.com
+by Sascha. With Pygame. Inspired by KidsCanCode from YouTube
 
-Todo
+Requirements:
 
-    create the playground
-    add terrain
-    add players PvE
-    add weapons and rounds
-    kill each other
-    start a battle
-    
-    start a 'server'
-    or join a 'server'
-    multiplayer
+You need Python for this game and it should be the Version 3.8 or higher.
+To play the game run python tanks.py
+
+The Gamewindow is actually set. You can change it in the settings.py
+
+Instructions:
+
+The game called Tanks because you play a tank against other tanks.
+The goal of the game is to survive and shoot all enemy tanks before they can kill you.
+Enemy tanks can hit and you loose 10 damage from healthbar. Overall you have 100 Points on your healthbar.
+
+Controlling:
+
+left arrow or a = move left
+right arrow or d = move right
+up arrow or w = move forward
+down arrow or s = move backward
+space = shooting
+
