@@ -1,4 +1,5 @@
 # Project Pygame in SKP
+# main.py
 
 import pygame
 import random
@@ -64,7 +65,6 @@ class Game:
         self.background_img = pg.image.load(path.join(img_folder, MAPBG_IMG)).convert_alpha()
         self.background_img = pg.transform.scale(self.background_img, (WIDTH, HEIGHT))
         self.background_img_rect = self.background_img.get_rect()
-
         # Sound loading
         pg.mixer.music.load(path.join(music_folder, BG_MUSIC))
         self.effects_sounds = {}
@@ -194,8 +194,10 @@ class Game:
 
     def draw(self):
         # Game loop - draw
+        # Debug function
         # pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        # Debug function
         # self.draw_grid()
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):

@@ -1,3 +1,5 @@
+# sprite.py
+
 import pygame as pg
 from random import uniform, choice, randint, random
 from settings import *
@@ -134,6 +136,7 @@ class Mob(pg.sprite.Sprite):
             self.kill()
             self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32 ))
 
+    # Healthbar
     def draw_health(self):
         if self.health > 60:
             col = GREEN

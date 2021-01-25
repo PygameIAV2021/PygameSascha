@@ -27,6 +27,7 @@ PLAYER_HEALTH = 100
 
 # Weapon settings
 BULLET_IMG = 'tilebullet.png'
+## Weapon dictionary
 WEAPONS = {}
 WEAPONS['singleshot'] = {'bullet_speed': 500,
                          'bullet_lifetime': 1000,
