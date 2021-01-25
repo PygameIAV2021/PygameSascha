@@ -194,7 +194,7 @@ class Game:
 
     def draw(self):
         # Game loop - draw
-        pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
+        # pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         # self.draw_grid()
         for sprite in self.all_sprites:
