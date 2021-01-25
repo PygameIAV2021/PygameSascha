@@ -1,20 +1,21 @@
+# settings.py
+
 import pygame as pg
 vec = pg.math.Vector2
-# settings.py
 
 TITLE = " PyGame!"
 WALL_IMG = 'tileGrass1.png'
+MAPBG_IMG = 'mapbg.png'
 
 # Display Surface
 WIDTH = 896
 HEIGHT = 640
 HSW = WIDTH / 2
 HSH = HEIGHT / 2
-FPS = 60
-
 TILESIZE = 64
 GRIDWITDH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
+FPS = 60
 
 # Player settings
 PLAYER_SPEED = 300

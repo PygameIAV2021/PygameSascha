@@ -60,6 +60,10 @@ class Game:
         self.light_mask = pg.image.load(path.join(img_folder, LIGHT_MASK)).convert_alpha()
         self.light_mask = pg.transform.scale(self.light_mask, LIGHT_RADIUS)
         self.light_rect = self.light_mask.get_rect()
+        # Go Screen Background
+        self.background_img = pg.image.load(path.join(img_folder, MAPBG_IMG)).convert_alpha()
+        self.background_img = pg.transform.scale(self.background_img, (WIDTH, HEIGHT))
+        self.background_img_rect = self.background_img.get_rect()
 
         # Sound loading
         pg.mixer.music.load(path.join(music_folder, BG_MUSIC))
@@ -116,7 +120,6 @@ class Game:
         self.paused = False
         self.night = False
         self.effects_sounds['level_start'].play()
-
         self.run()
 
     def run(self):
@@ -229,13 +232,18 @@ class Game:
 
     def show_start_screen(self):
         # Start screen
-        pass
+        self.screen.fill(BLACK)
+        self.screen.blit(self.background_img, (0, 0))
+        self.draw_text("Welcome to Tanks", self.title_font, 90, RED, WIDTH / 2, HEIGHT * 1 / 3, align="center")
+        self.draw_text("Press a key to start", self.title_font, 75, WHITE, WIDTH / 2, HEIGHT * 3 / 4, align="center")
+        pg.display.flip()
+        self.wait_for_key()
 
     def show_go_screen(self):
          # Game Over screen
         self.screen.fill(BLACK)
         self.draw_text("GAME OVER", self.title_font, 100, RED, WIDTH / 2, HEIGHT / 2, align="center")
-        self.draw_text("Press a key to start", self.title_font, 75, WHITE, WIDTH / 2, HEIGHT * 3 / 4, align="center")
+        self.draw_text("Press a key to restart", self.title_font, 75, WHITE, WIDTH / 2, HEIGHT * 3 / 4, align="center")
         pg.display.flip()
         self.wait_for_key()
 
